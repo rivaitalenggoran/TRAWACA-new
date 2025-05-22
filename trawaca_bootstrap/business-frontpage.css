@@ -1,0 +1,55 @@
+/*!
+ * Start Bootstrap - Busines Frontpage (https://startbootstrap.com/template-overviews/business-frontpage)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-business-frontpage/blob/master/LICENSE)
+ */
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap');
+body {
+  font-family: 'Noto Sans JP', 'Arial', sans-serif;
+  padding-top: 56px;
+}
+
+p{
+  font-size: 1em;	
+  line-height: 1.3;
+}
+
+h2{
+  font-weight: 600;	
+}
+
+h5{
+  font-weight: 500;	
+}
+
+.sijisiji{
+  font-size: 1em;	
+  line-height: 1.3;
+}
+
+.siji{
+  font-size: 0.9em;	
+  line-height: 1.3;
+}
+
+.cilik{
+  font-size: 0.9em;	
+  line-height: 1;
+  color: #AC6249;
+}
+
+.sepasi{
+  line-height: 1.5;
+}
+
+.abuabu{
+  color: #555555;
+}
+
+.pupus{
+  color: #AAAAAA;
+}
+
+.coklat{
+  color: #AC6249;
+}
