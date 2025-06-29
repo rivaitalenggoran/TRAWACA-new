@@ -105,7 +105,7 @@ if (!isset($_SESSION['username'])) {
         }
 
         /* Content Adjusts on Minimize */
-        .sidebar.minimized ~ .admin-content {
+        .sidebar.minimized~.admin-content {
             margin-left: 80px;
             width: calc(100% - 80px);
         }
@@ -140,6 +140,10 @@ if (!isset($_SESSION['username'])) {
                 margin-left: 0;
                 width: 100%;
             }
+
+            .sidebar-toggle {
+                color: black;
+            }
         }
     </style>
 </head>
@@ -152,13 +156,7 @@ if (!isset($_SESSION['username'])) {
                 <i class="fa fa-bars"></i>
             </button>
             <a class="navbar-brand" href="#">TRAWACA</a>
-            <div class="ml-auto">
-                <a href="profil.php" class="btn">
-                    <i class="fa fa-user" style="font-size: 25px; color: white;"></i>
-                </a>
-                <a href="../logout.php" class="btn btn-danger">Logout</a>
-                <a href="../beranda.php" class="btn" style="background-color: #8B4513; color: white;">Beranda</a>
-            </div>
+            <a href="../logout.php" class="btn btn-danger">Logout</a>
         </div>
     </nav>
 
@@ -176,7 +174,7 @@ if (!isset($_SESSION['username'])) {
     <!-- Admin Content -->
     <div class="admin-content" id="content">
         <div class="container mt-4">
-            <h2>Hai <?= $_SESSION['username']?></h2>
+            <h2>Hai <?= $_SESSION['username'] ?></h2>
             <p>Silakan pilih menu di sidebar untuk melanjutkan.</p>
         </div>
     </div>
@@ -195,4 +193,5 @@ if (!isset($_SESSION['username'])) {
     </script>
 
 </body>
+
 </html>

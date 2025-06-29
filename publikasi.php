@@ -51,7 +51,7 @@
     .publikasi-card:hover {
       /* transform: translateY(-5px); */
       /* Efek hover jika diinginkan, bisa bentrok dengan WOW */
-      /* box-shadow: 0 10px 20px rgba(0,0,0,0.1); */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>

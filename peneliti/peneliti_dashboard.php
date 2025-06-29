@@ -140,6 +140,9 @@ if (!isset($_SESSION['username'])) {
                 margin-left: 0;
                 width: 100%;
             }
+            .sidebar-toggle{
+                color: black;
+            }
         }
     </style>
 </head>

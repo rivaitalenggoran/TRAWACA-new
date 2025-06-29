@@ -162,8 +162,6 @@
     .kegiatan-card-custom-col {
         flex: 0 0 calc(100% / 3 - 10px); /* 3 card per view, dikurangi sedikit untuk gap */
         margin-right: 15px; /* Jarak antar card */
-        /* padding-left: 7.5px;
-        padding-right: 7.5px; */
     }
     .kegiatan-card-custom-col:last-child {
         margin-right: 0; /* Hapus margin kanan pada item terakhir */
@@ -175,10 +173,18 @@
             margin-right: 15px;
         }
     }
+    
+    /* MODIFIKASI: Penyesuaian untuk tampilan mobile */
     @media (max-width: 767.98px) { /* sm and down */
         .kegiatan-card-custom-col {
-            flex: 0 0 90%; /* 1 card per view dengan sedikit margin terlihat */
-            margin-right: 15px;
+            flex: 0 0 100%; /* Menampilkan 1 card penuh */
+            margin-right: 0; /* Hapus margin agar pas */
+            padding: 0 8px; /* Beri sedikit padding agar tidak menempel di tepi layar */
+        }
+        .kegiatan-scroll-container {
+          /* Sesuaikan padding container agar konsisten dengan padding item */
+          padding-left: 0;
+          padding-right: 0;
         }
     }
 
@@ -362,7 +368,7 @@
                   </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <div class="col-12"><p class="text-center">Tidak ada kegiatan atau luaran saat ini.</p></div>
+                <div class="col-12 wow fadeInUp" data-wow-delay="0.2s"><p class="text-center">Tidak ada kegiatan atau luaran saat ini.</p></div>
             <?php endif; ?>
           </div>
         </div>
@@ -403,26 +409,43 @@
   <script>
     new WOW().init();
 
+    // MODIFIKASI: Seluruh logika scroll diperbarui agar responsif
     $(document).ready(function() {
         const kegiatanScrollWrapper = $('.kegiatan-scroll-wrapper');
         const kegiatanContainer = $('#kegiatanContainer');
-        const allKegiatanItems = kegiatanContainer.children('.kegiatan-card-custom-col'); // Semua item asli
-        const itemsPerScroll = 3;
+        const allKegiatanItems = kegiatanContainer.children('.kegiatan-card-custom-col');
+        
         let autoScrollInterval;
-        let currentScrollPosition = 0; // Untuk melacak posisi scroll, bukan indeks halaman
+        let currentScrollPosition = 0;
+        let itemsPerScroll = 3; // Default untuk desktop
+
+        // BARU: Fungsi untuk mengatur jumlah item scroll berdasarkan lebar layar
+        function updateResponsiveSettings() {
+            const windowWidth = $(window).width();
+            if (windowWidth < 768) {
+                itemsPerScroll = 1; // 1 item untuk mobile
+            } else if (windowWidth < 992) {
+                itemsPerScroll = 2; // 2 item untuk tablet
+            } else {
+                itemsPerScroll = 3; // 3 item untuk desktop
+            }
+            updateNavButtons();
+        }
 
         function getCardWidthPlusMargin() {
             if (kegiatanContainer.children('.kegiatan-card-custom-col').length > 0) {
+                // Untuk mobile, lebar kartu adalah lebar container itu sendiri
+                if ($(window).width() < 768) {
+                  return kegiatanContainer.innerWidth();
+                }
                 return kegiatanContainer.children('.kegiatan-card-custom-col').first().outerWidth(true);
             }
-            return 0; // Default jika tidak ada item
+            return 0;
         }
-
 
         function updateNavButtons() {
             if (!kegiatanContainer.length || kegiatanContainer.children('.kegiatan-card-custom-col').length === 0) {
-                $('#kegiatanPrevBtn').prop('disabled', true);
-                $('#kegiatanNextBtn').prop('disabled', true);
+                $('#kegiatanPrevBtn, #kegiatanNextBtn').prop('disabled', true);
                 return;
             }
             const scrollLeft = kegiatanContainer.scrollLeft();
@@ -430,11 +453,11 @@
             const containerWidth = kegiatanContainer.innerWidth();
 
             $('#kegiatanPrevBtn').prop('disabled', scrollLeft <= 0);
-            $('#kegiatanNextBtn').prop('disabled', scrollLeft >= (scrollWidth - containerWidth - 1)); // -1 untuk toleransi
+            $('#kegiatanNextBtn').prop('disabled', scrollLeft >= (scrollWidth - containerWidth - 1));
         }
 
         function scrollToTarget(targetScrollLeft) {
-            kegiatanContainer.animate({ scrollLeft: targetScrollLeft }, 500, function() {
+            kegiatanContainer.stop().animate({ scrollLeft: targetScrollLeft }, 500, function() {
                 currentScrollPosition = kegiatanContainer.scrollLeft();
                 updateNavButtons();
             });
@@ -447,7 +470,6 @@
             let newScrollPosition = kegiatanContainer.scrollLeft() + (cardWidth * itemsPerScroll);
             const maxScroll = kegiatanContainer[0].scrollWidth - kegiatanContainer.innerWidth();
             scrollToTarget(Math.min(newScrollPosition, maxScroll));
-            // startAutoScroll(); // Opsional: restart auto scroll
         });
 
         $('#kegiatanPrevBtn').on('click', function() {
@@ -456,35 +478,31 @@
             if (cardWidth === 0) return;
             let newScrollPosition = kegiatanContainer.scrollLeft() - (cardWidth * itemsPerScroll);
             scrollToTarget(Math.max(0, newScrollPosition));
-            // startAutoScroll(); // Opsional: restart auto scroll
         });
 
         function startAutoScroll() {
-            if (!kegiatanContainer.length || kegiatanContainer.children('.kegiatan-card-custom-col').length <= itemsPerScroll) {
-                updateNavButtons(); // Tetap update tombol jika item sedikit
+            // MODIFIKASI: Cek jumlah total item terhadap itemsPerScroll yang dinamis
+            if (!kegiatanContainer.length || allKegiatanItems.length <= itemsPerScroll) {
+                updateNavButtons();
                 return;
             }
-            stopAutoScroll(); // Hentikan yang lama jika ada
+            stopAutoScroll();
             autoScrollInterval = setInterval(function() {
-                if (!kegiatanContainer.is(':visible')) { // Hanya scroll jika visible
+                if (!kegiatanContainer.is(':visible')) {
                     stopAutoScroll();
                     return;
                 }
-                const cardWidth = getCardWidthPlusMargin();
-                if (cardWidth === 0) return;
-
+                
                 const scrollLeft = kegiatanContainer.scrollLeft();
                 const scrollWidth = kegiatanContainer[0].scrollWidth;
                 const containerWidth = kegiatanContainer.innerWidth();
 
                 if (scrollLeft >= (scrollWidth - containerWidth - 1)) {
-                    scrollToTarget(0); // Kembali ke awal
+                    scrollToTarget(0); // Kembali ke awal jika sudah di akhir
                 } else {
-                    // Menggunakan fungsi klik tombol Next agar logikanya sama
-                    // scrollToTarget(scrollLeft + (cardWidth * itemsPerScroll)); // Ini akan langsung scroll
-                    $('#kegiatanNextBtn').trigger('click'); // Lebih baik memicu event klik
+                    $('#kegiatanNextBtn').trigger('click'); // Memicu klik tombol next
                 }
-            }, 7000); // Interval auto scroll (7 detik)
+            }, 7000);
         }
 
         function stopAutoScroll() {
@@ -495,67 +513,68 @@
             currentScrollPosition = $(this).scrollLeft();
             updateNavButtons();
         });
+        
+        // BARU: Event listener untuk window resize
+        $(window).on('resize', function() {
+            // Hentikan scroll, perbarui pengaturan, lalu mulai lagi jika perlu
+            stopAutoScroll();
+            updateResponsiveSettings();
+            // Posisikan ulang scroll ke kelipatan terdekat agar rapi
+            const cardWidth = getCardWidthPlusMargin();
+            if (cardWidth > 0) {
+              const newPos = Math.round(kegiatanContainer.scrollLeft() / cardWidth) * cardWidth;
+              scrollToTarget(newPos);
+            }
+            startAutoScroll();
+        }).trigger('resize'); // Panggil sekali saat load untuk inisialisasi
 
         if (allKegiatanItems.length > 0) {
-            updateNavButtons();
-            startAutoScroll();
             $('.kegiatan-nav-buttons, .show-all-kegiatan-btn-container').show();
+            startAutoScroll(); // Mulai auto scroll setelah semua siap
         } else {
             $('.kegiatan-nav-buttons, .show-all-kegiatan-btn-container').hide();
         }
 
-        // Logika Tombol "Show All"
+        // Logika Tombol "Show All" (tidak berubah, tapi dipastikan tetap berfungsi)
         let isShowingAll = false;
-        const kegiatanRowParent = $('.kegiatan-luaran-section .section-title').next('.col-12'); // Parent dari scroll wrapper
+        const kegiatanRowParent = $('.kegiatan-luaran-section .section-title').next('.col-12');
 
         $('#showAllKegiatan').on('click', function() {
             stopAutoScroll();
 
             if (!isShowingAll) {
-                // Tampilkan Semua
-                kegiatanScrollWrapper.hide(); // Sembunyikan wrapper asli
-                // Buat container grid baru jika belum ada atau tampilkan yang sudah ada
+                kegiatanScrollWrapper.hide();
                 if ($('#kegiatanGridContainer').length === 0) {
                     kegiatanRowParent.append('<div class="row" id="kegiatanGridContainer"></div>');
                 }
                 const kegiatanGridContainer = $('#kegiatanGridContainer').empty().show();
 
                 allKegiatanItems.each(function() {
-                    const clonedItem = $(this).clone(); // Clone item agar tidak merusak event listener asli WOW
-                    clonedItem.removeClass('kegiatan-card-custom-col wow fadeInUp') // Hapus kelas scroll & wow jika perlu direinit
-                               .addClass('col-md-4 mb-4 kegiatan-card-custom') // Kelas grid Bootstrap
-                               .css({ // Reset style inline dari scroll
+                    const clonedItem = $(this).clone();
+                    clonedItem.removeClass('kegiatan-card-custom-col wow fadeInUp')
+                               .addClass('col-md-4 mb-4 kegiatan-card-custom')
+                               .css({
                                    'flex-basis': '',
                                    'margin-right': '',
-                                   'min-width': ''
+                                   'padding': '' // Reset padding juga
                                });
                     kegiatanGridContainer.append(clonedItem);
                 });
-                // new WOW().init(); // Re-init WOW untuk item yang baru ditambahkan jika kelas wow dihapus
 
                 $('.kegiatan-nav-buttons').hide();
                 $(this).text('Tampilkan Lebih Sedikit');
                 isShowingAll = true;
             } else {
-                // Tampilkan Lebih Sedikit (kembali ke scroll)
                 if ($('#kegiatanGridContainer').length > 0) {
-                    $('#kegiatanGridContainer').empty().hide(); // Kosongkan dan sembunyikan grid
+                    $('#kegiatanGridContainer').empty().hide();
                 }
-                kegiatanScrollWrapper.show(); // Tampilkan lagi wrapper scroll
-                // (Container scroll dan itemnya seharusnya masih ada di DOM, hanya disembunyikan)
+                kegiatanScrollWrapper.show();
 
-                // Pastikan item di container scroll memiliki kelas yang benar
                 kegiatanContainer.children('.kegiatan-card-custom').each(function(){
                     $(this).removeClass('col-md-4 mb-4').addClass('kegiatan-card-custom-col wow fadeInUp');
                 });
-
-
-                currentScrollPosition = 0;
-                kegiatanContainer.scrollLeft(0);
-                updateNavButtons();
-                startAutoScroll();
                 
-                $('.kegiatan-nav-buttons').show();
+                $(window).trigger('resize'); // Panggil resize untuk mengatur ulang scroll
                 $(this).text('Tampilkan Semua');
                 isShowingAll = false;
             }

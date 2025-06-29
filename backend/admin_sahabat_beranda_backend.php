@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Update data sahabat menggunakan id_bahasa
         $stmt = $pdo->prepare("
             UPDATE sahabat_trawaca_bahasa
-            SET nama_waktu_kerjasama = ?
+            SET   nama_waktu_kerjasama = ?
             WHERE id_bahasa = ?");
         $stmt->execute([$nama_waktu_kerjasama, $id]);
     } 

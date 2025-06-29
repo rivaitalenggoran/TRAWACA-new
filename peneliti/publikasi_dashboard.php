@@ -155,9 +155,6 @@ if (!isset($_SESSION['username'])) {
             </button>
             <a class="navbar-brand" href="#">TRAWACA</a>
             <div class="ml-auto">
-                <a href="profil.php" class="btn">
-                    <i class="fa fa-user" style="font-size: 25px; color: white;"></i>
-                </a>
                 <a href="../logout.php" class="btn btn-danger">Logout</a>
                 <a href="../beranda.php" class="btn" style="background-color: #8B4513; color: white;">Beranda</a>
             </div>

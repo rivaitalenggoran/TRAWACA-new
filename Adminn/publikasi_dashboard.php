@@ -14,6 +14,7 @@ $ID_header = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -142,6 +143,10 @@ $ID_header = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 margin-left: 0;
                 width: 100%;
             }
+
+            .sidebar-toggle{
+                color: black;
+            }
         }
     </style>
 </head>
@@ -150,23 +155,18 @@ $ID_header = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-        <button class="sidebar-toggle" onclick="toggleSidebar()">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">
                 <i class="fa fa-bars"></i>
             </button>
             <a class="navbar-brand" href="#">TRAWACA</a>
-            <div class="ml-auto">
-                <a href="profil.php" class="btn">
-                    <i class="fa fa-user" style="font-size: 25px; color: white;"></i>
-                </a>
-                <a href="../logout.php" class="btn btn-danger">Logout</a>
-            </div>
+            <a href="../logout.php" class="btn btn-danger">Logout</a>
         </div>
     </nav>
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <a href="dashboard.php"><i class="fa fa-tachometer"></i> <span class="menu-text">Dashboard</span></a>
-        <a href="beranda_dashboard.php" ><i class="fa fa-home"></i> <span class="menu-text">Beranda</span></a>
+        <a href="beranda_dashboard.php"><i class="fa fa-home"></i> <span class="menu-text">Beranda</span></a>
         <a href="publikasi_dashboard.php" class="active"><i class="fa fa-cube"></i> <span class="menu-text">Publikasi</span></a>
         <a href="profil_dashboard.php"><i class="fa fa-language"></i> <span class="menu-text">Profil</span></a>
         <a href="aplikasi_dashboard.php"><i class="fa fa-language"></i> <span class="menu-text">Aplikasi</span></a>
@@ -179,7 +179,7 @@ $ID_header = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="container mt-4">
             <!-- Header dengan Judul dan Breadcrumb -->
             <div class="header p-3 mb-4" style="background-color: #DCD1B8; border-radius: 5px;">
-                <h2 class="mb-1">Hai <?= $_SESSION['username']?></h2>
+                <h2 class="mb-1">Hai <?= $_SESSION['username'] ?></h2>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
@@ -188,8 +188,8 @@ $ID_header = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </nav>
             </div>
 
-<!----------------------- Header Content --------------------------------------------------------------------->     
-            <h3 class="mb-1">Tabel Data Header Publikasi</h3> 
+            <!----------------------- Header Content --------------------------------------------------------------------->
+            <h3 class="mb-1">Tabel Data Header Publikasi</h3>
             <a href="CRU/header_publikasi_tambah.php" class="btn btn-primary mb-3">Tambah Header Publikasi</a>
 
             <!-- Dropdown untuk memilih id_header -->
@@ -197,11 +197,11 @@ $ID_header = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <option value="">PILIH ID HEADER UNTUK TAMBAH BAHASA HEADER</option>
                 <?php foreach ($ID_header as $header): ?>
                     <option value="CRU/header_publikasi_tambah_bahasa.php?id_header=<?php echo $header['id_header']; ?>">
-                    <?php echo $header['id_header']; ?>
+                        <?php echo $header['id_header']; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
-            
+
             <table class="table table-bordered">
                 <thead class="table-dark">
                     <tr>
@@ -234,7 +234,7 @@ $ID_header = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </tbody>
             </table>
-<!----------------------- Header Content ----------------------------------------------------------------------> 
+            <!----------------------- Header Content ---------------------------------------------------------------------->
 
         </div>
     </div>
@@ -247,7 +247,7 @@ $ID_header = $stmt->fetchAll(PDO::FETCH_ASSOC);
             var sidebar = document.getElementById("sidebar");
             var content = document.getElementById("content");
 
-            if (window.innerWidth <= 200) {
+            if (window.innerWidth <= 768) {
                 sidebar.classList.toggle("active");
             } else {
                 sidebar.classList.toggle("minimized");

@@ -33,6 +33,7 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -161,6 +162,9 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 margin-left: 0;
                 width: 100%;
             }
+            .sidebar-toggle{
+                color: black;
+            }
         }
     </style>
 </head>
@@ -169,16 +173,11 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-        <button class="sidebar-toggle" onclick="toggleSidebar()">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">
                 <i class="fa fa-bars"></i>
             </button>
             <a class="navbar-brand" href="#">TRAWACA</a>
-            <div class="ml-auto">
-                <a href="profil.php" class="btn">
-                    <i class="fa fa-user" style="font-size: 25px; color: white;"></i>
-                </a>
-                <a href="../logout.php" class="btn btn-danger">Logout</a>
-            </div>
+            <a href="../logout.php" class="btn btn-danger">Logout</a>
         </div>
     </nav>
 
@@ -198,7 +197,7 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="container mt-4">
             <!-- Header dengan Judul dan Breadcrumb -->
             <div class="header p-3 mb-4" style="background-color: #DCD1B8; border-radius: 5px;">
-                <h2 class="mb-1">Hai <?= $_SESSION['username']?></h2>
+                <h2 class="mb-1">Hai <?= $_SESSION['username'] ?></h2>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
@@ -207,8 +206,8 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </nav>
             </div>
 
-<!----------------------- Beranda Content --------------------------------------------------------------------->     
-            <h3 class="mb-1">Tabel Data Header Beranda</h3>        
+            <!----------------------- Beranda Content --------------------------------------------------------------------->
+            <h3 class="mb-1">Tabel Data Header Beranda</h3>
             <a href="CRU/header_beranda_tambah.php" class="btn btn-primary mb-3">Tambah Header Beranda</a>
 
             <!-- Dropdown untuk memilih id_header -->
@@ -216,7 +215,7 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <option value="">PILIH ID HEADER UNTUK TAMBAH BAHASA HEADER</option>
                 <?php foreach ($ID_header as $header): ?>
                     <option value="CRU/header_beranda_tambah_bahasa.php?id_header=<?php echo $header['id_header']; ?>">
-                    <?php echo $header['id_header']; ?>
+                        <?php echo $header['id_header']; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -253,19 +252,19 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </tbody>
             </table>
-<!----------------------- Header Content -----------------------------------------------------------------> 
+            <!----------------------- Header Content ----------------------------------------------------------------->
 
 
-<!----------------------- Peneliti Utama Content --------------------------------------------------------------------->   
-            <br>  
+            <!----------------------- Peneliti Utama Content --------------------------------------------------------------------->
+            <br>
             <h4 class="mb-1">Notes : Untuk Mengubah Nama Peneliti dan Bidang Minat, harap pergi ke Halaman Peneliti</h4>
-            <br>      
-<!----------------------- Peneliti Utama Content ---------------------------------------------------------------------->
+            <br>
+            <!----------------------- Peneliti Utama Content ---------------------------------------------------------------------->
 
 
-<!----------------------- Kontributor Content --------------------------------------------------------------------->     
-            <h3 class="mb-1">Tabel Data Kontributor Beranda</h3>    
-            <a href="CRU/kontributor.php" class="btn btn-primary mb-3">Tambah Kontributor Beranda</a>   
+            <!----------------------- Kontributor Content --------------------------------------------------------------------->
+            <h3 class="mb-1">Tabel Data Kontributor Beranda</h3>
+            <a href="CRU/kontributor.php" class="btn btn-primary mb-3">Tambah Kontributor Beranda</a>
             <table class="table table-bordered">
                 <thead class="table-dark">
                     <tr>
@@ -276,7 +275,7 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($Kontributor as $rowKontributor) : ?>             
+                    <?php foreach ($Kontributor as $rowKontributor) : ?>
                         <tr>
                             <td><?= $rowKontributor['id_kontributor']; ?></td>
                             <td><?= $rowKontributor['nama_kontributor']; ?></td>
@@ -289,17 +288,17 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </tbody>
             </table>
-<!----------------------- KontributorContent ---------------------------------------------------------------------->
+            <!----------------------- KontributorContent ---------------------------------------------------------------------->
 
 
 
-<!----------------------- Kontak Content --------------------------------------------------------------------->
-     
-            <h3 class="mb-1">Tabel Data Kontak Beranda</h3>    
-            <br>  
+            <!----------------------- Kontak Content --------------------------------------------------------------------->
+
+            <h3 class="mb-1">Tabel Data Kontak Beranda</h3>
+            <br>
             <h4 class="mb-1">Notes : Gunakan Email</h4>
-            <br> 
-            <a href="CRU/kontak.php" class="btn btn-primary mb-3">Tambah Kontak Beranda</a>   
+            <br>
+            <a href="CRU/kontak.php" class="btn btn-primary mb-3">Tambah Kontak Beranda</a>
             <table class="table table-bordered">
                 <thead class="table-dark">
                     <tr>
@@ -310,7 +309,7 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($Kontak as $row) : ?>             
+                    <?php foreach ($Kontak as $row) : ?>
                         <tr>
                             <td><?= $row['id_kontak']; ?></td>
                             <td><?= $row['nama_kontak']; ?></td>
@@ -323,15 +322,15 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </tbody>
             </table>
-<!----------------------- Kontak Content ---------------------------------------------------------------------->
+            <!----------------------- Kontak Content ---------------------------------------------------------------------->
 
 
-<!----------------------- Kegiatan Content --------------------------------------------------------------------->   
-            <h3 class="mb-1">Tabel Data Kegiatan dan Luaran Beranda</h3>    
-            <br>  
+            <!----------------------- Kegiatan Content --------------------------------------------------------------------->
+            <h3 class="mb-1">Tabel Data Kegiatan dan Luaran Beranda</h3>
+            <br>
             <h4 class="mb-1">Notes : untuk link, gunakan https:// agar terbaca sebagai link, bukan path</h4>
             <br>
-            <a href="CRU/kegiatan_beranda_tambah.php" class="btn btn-primary mb-3">Tambah Kegiatan dan Luaran Beranda</a>   
+            <a href="CRU/kegiatan_beranda_tambah.php" class="btn btn-primary mb-3">Tambah Kegiatan dan Luaran Beranda</a>
 
             <select onchange="window.location.href=this.value;">
                 <option value="">PILIH ID KEGIATAN UNTUK TAMBAH BAHASA KEGIATAN</option>
@@ -358,7 +357,7 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($Kegiatan as $rowKegiatan) : ?>             
+                    <?php foreach ($Kegiatan as $rowKegiatan) : ?>
                         <tr>
                             <td><?= $rowKegiatan['id_kegiatan']; ?></td>
                             <td><?= $rowKegiatan['id_bahasa']; ?></td>
@@ -377,12 +376,12 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </tbody>
             </table>
-<!----------------------- Kegiatan Content ---------------------------------------------------------------------->
+            <!----------------------- Kegiatan Content ---------------------------------------------------------------------->
 
 
-<!----------------------- Sahabat Content --------------------------------------------------------------------->     
-            <h3 class="mb-1">Tabel Data Sahabat TRAWACA Beranda</h3>    
-            <a href="CRU/sahabat_beranda_tambah.php" class="btn btn-primary mb-3">Tambah Sahabat TRAWACA Beranda</a>   
+            <!----------------------- Sahabat Content --------------------------------------------------------------------->
+            <h3 class="mb-1">Tabel Data Sahabat TRAWACA Beranda</h3>
+            <a href="CRU/sahabat_beranda_tambah.php" class="btn btn-primary mb-3">Tambah Sahabat TRAWACA Beranda</a>
 
             <select onchange="window.location.href=this.value;">
                 <option value="">PILIH ID SAHABAT UNTUK TAMBAH BAHASA SAHABAT</option>
@@ -405,7 +404,7 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($Sahabat as $rowSahabat) : ?>             
+                    <?php foreach ($Sahabat as $rowSahabat) : ?>
                         <tr>
                             <td><?= $rowSahabat['id_bahasa']; ?></td>
                             <td><?= $rowSahabat['id_sahabat']; ?></td>
@@ -420,7 +419,7 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endforeach; ?>
                 </tbody>
             </table>
-<!----------------------- Sahabat Content ---------------------------------------------------------------------->
+            <!----------------------- Sahabat Content ---------------------------------------------------------------------->
         </div>
     </div>
 
@@ -432,7 +431,7 @@ $ID_sahabat = $stmt->fetchAll(PDO::FETCH_ASSOC);
             var sidebar = document.getElementById("sidebar");
             var content = document.getElementById("content");
 
-            if (window.innerWidth <= 200) {
+            if (window.innerWidth <= 768) {
                 sidebar.classList.toggle("active");
             } else {
                 sidebar.classList.toggle("minimized");

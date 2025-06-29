@@ -143,6 +143,10 @@ $ID_peneliti = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 margin-left: 0;
                 width: 100%;
             }
+
+            .sidebar-toggle{
+                color: black;
+            }
         }
     </style>
 </head>
@@ -155,12 +159,7 @@ $ID_peneliti = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <i class="fa fa-bars"></i>
             </button>
             <a class="navbar-brand" href="#">TRAWACA</a>
-            <div class="ml-auto">
-                <a href="profil.php" class="btn">
-                    <i class="fa fa-user" style="font-size: 25px; color: white;"></i>
-                </a>
                 <a href="../logout.php" class="btn btn-danger">Logout</a>
-            </div>
         </div>
     </nav>
 
@@ -275,7 +274,7 @@ $ID_peneliti = $stmt->fetchAll(PDO::FETCH_ASSOC);
             var sidebar = document.getElementById("sidebar");
             var content = document.getElementById("content");
 
-            if (window.innerWidth <= 200) {
+            if (window.innerWidth <= 768) {
                 sidebar.classList.toggle("active");
             } else {
                 sidebar.classList.toggle("minimized");

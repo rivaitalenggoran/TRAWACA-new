@@ -26,7 +26,7 @@ include '../../backend/admin_sahabat_beranda_backend.php';  // Pastikan file bac
         <div class="mb-3">
             <label for="nama_sahabat" class="form-label">Nama Sahabat</label>
             <input type="text" name="nama_sahabat" class="form-control" placeholder="Nama Sahabat" 
-                value="<?php echo isset($row['nama_sahabat']) ? $row['nama_sahabat'] : ''; ?>" required>
+                value="<?php echo isset($row['nama_sahabat']) ? $row['nama_sahabat'] : ''; ?>" disabled>
         </div>
 
         <div class="mb-3">
